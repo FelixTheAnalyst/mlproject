@@ -31,10 +31,11 @@ class DataTransformation:
             categorical_columns = [
                 "gender",
                 "race_ethnicity",
-                "parental_level_education",
+                "parental_level_of_education",
                 "lunch",
                 "test_preparation_course"
             ]
+
             
             num_pipeline = Pipeline(
                 steps = [
@@ -47,7 +48,7 @@ class DataTransformation:
                 steps = [
                 ("imputer", SimpleImputer(strategy="most_frequent")),
                 ("one_hot_encoder", OneHotEncoder()),
-                ("scaler", StandardScaler)
+                ("scaler", StandardScaler(with_mean=False))
                 ]
             )
             
@@ -88,7 +89,7 @@ class DataTransformation:
             
             input_feature_test_df = test_df.drop(columns = [target_column_name], axis=1)
             target_feature_test_df = test_df[target_column_name]
-            
+
             logging.info(
                 f"Applying preprocesssing object on training dataframe and testing dataframe"
             )
@@ -119,5 +120,5 @@ class DataTransformation:
             )
                
         except Exception as e:
-            CustomException(e, sys)
+            raise CustomException(e, sys)
     
